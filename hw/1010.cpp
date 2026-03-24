@@ -24,6 +24,8 @@ public:
 
 };
 
+
+
 //尾插法
 void LinkedList::K_Reverse (int k)
 {
@@ -60,8 +62,20 @@ void LinkedList::K_Reverse (int k)
       }
     return;
 }
+
 //头插法
 void LinkedList::K_Reverse (int k)
 {
-
+    if(k < 1)
+        return;
+    node* first = head;
+    node* pre = head -> next;
+    node* curr = pre -> next;
+    while(curr != NULL)
+    {
+        for(int i = 0; i < k && curr != NULL;i++)
+        {
+            
+        }
+    }
 }
