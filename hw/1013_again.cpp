@@ -60,7 +60,7 @@ int main()
         
     }
     string s;
-    while(!(cin >> s))
+    while(cin >> s)
     {
         string result = find_hash(s);
         cout << result << "\n";

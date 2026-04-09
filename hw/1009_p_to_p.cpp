@@ -23,7 +23,8 @@ class Polynomial{
 };
 
 void Polynomial::insert(int c,int e){
-    node** node_pointer = &head;
+    if(c == 0) return;
+    node** node_pointer = &head;//node pointer points to the next pointer of the previous node
     while(*node_pointer != NULL && (*node_pointer) -> e > e)
     {
         node_pointer = &((*node_pointer) -> next);
