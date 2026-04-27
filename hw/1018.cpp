@@ -45,7 +45,7 @@ void CustomStack::pop() {
 int CustomStack::getMax() {
     if(maxStackTop == nullptr)
     {
-        return;
+        return 0;
     }
     return maxStackTop->value;
 }

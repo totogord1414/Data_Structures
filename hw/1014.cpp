@@ -28,7 +28,7 @@ int main()
    {
         cin >> discB[i].row >> discB[i].column >> discB[i].value;
    }
-   int pointer_A , pointer_B = 0;
+   int pointer_A = 0, pointer_B = 0;
    vector<element> discC;
    int pointer_C = 0;
    while(pointer_A < numA && pointer_B < numB)
