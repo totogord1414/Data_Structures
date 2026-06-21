@@ -368,24 +368,50 @@ namespace Graph {
         // TODO: 实现 COMPONENTS
         // 输出格式：COMPONENTS <count> SIZES <s1> <s2> ...
         // 规模按降序输出
-        std::cerr << "cmdComponents 还没实现" << std::endl;
-        std::cout << "ERROR not_implemented" << std::endl;
+        auto result = Algorithm::GetConnectedComponents(graph);
+        std::cout << "COMPONENTS " << result.count << " SIZES";
+        for (int size : result.sizes) {
+            std::cout << " " << size;
+        }
+        std::cout << "\n";
     }
 
     // ==================== SHORTEST ====================
     void CommandProcessor::cmdShortest(std::istringstream &args) {
-        (void)args;
         // TODO: 实现 SHORTEST <from_id> <to_id> <DIST|TIME>
         // 成功输出格式：PATH <DIST|TIME> <total_cost> NODES <id1> <id2> ...
         // 不可达输出：NO_PATH
         // 若顶点不存在：ERROR place_not_found
-        std::cerr << "cmdShortest 还没实现" << std::endl;
-        std::cout << "ERROR not_implemented" << std::endl;
+        std::string from_id, to_id, mode;
+        if (!(args >> from_id >> to_id >> mode)) {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        if (mode != "DIST" && mode != "TIME") {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        Algorithm::PathMode p_mode = (mode == "DIST") ? Algorithm::PathMode::DIST : Algorithm::PathMode::TIME;
+        try {
+            auto result = Algorithm::GetShortestPath(graph, from_id, to_id, p_mode);
+            if (!result.reachable || result.path.empty()) {
+                std::cout << "NO_PATH\n";
+            } else {
+                std::cout << "PATH " << mode << " " << result.total_cost << " NODES";
+                for (const auto& node : result.path) {
+                    std::cout << " " << node;
+                }
+                std::cout << "\n";
+            }
+        } catch (const GraphException& e) {
+            std::cout << e.what() << "\n";
+        }
     }
 
     // ==================== TIMED_SHORTEST ====================
     void CommandProcessor::cmdTimedShortest(std::istringstream &args) {
-        (void)args;
         // TODO: 实现 TIMED_SHORTEST <from_id> <to_id> <time> <DIST|TIME>
         // 含义：在给定时刻（HH:MM）下，找 from_id 到 to_id 的最短路径
         //   - 只走 status == "open" 的道路
@@ -394,19 +420,96 @@ namespace Graph {
         // 成功输出格式：PATH <DIST|TIME> <total_cost> NODES <id1> <id2> ...
         // 不可达输出：NO_PATH
         // 若顶点不存在：ERROR place_not_found
-        std::cerr << "cmdTimedShortest 还没实现" << std::endl;
-        std::cout << "ERROR not_implemented" << std::endl;
+        std::string from_id, to_id, time, mode;
+        if (!(args >> from_id >> to_id >> time >> mode)) {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        if (mode != "DIST" && mode != "TIME") {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        Algorithm::PathMode p_mode = (mode == "DIST") ? Algorithm::PathMode::DIST : Algorithm::PathMode::TIME;
+        try {
+            auto result = Algorithm::GetTimedShortestPath(graph, from_id, to_id, time, p_mode);
+            if (!result.reachable || result.path.empty()) {
+                std::cout << "NO_PATH\n";
+            } else {
+                std::cout << "PATH " << mode << " " << result.total_cost << " NODES";
+                for (const auto& node : result.path) {
+                    std::cout << " " << node;
+                }
+                std::cout << "\n";
+            }
+        } catch (const GraphException& e) {
+            std::cout << e.what() << "\n";
+        }
     }
 
     // ==================== MUST_PASS ====================
     void CommandProcessor::cmdMustPass(std::istringstream &args) {
-        (void)args;
         // TODO: 实现 MUST_PASS <from_id> <to_id> <DIST|TIME> <k> <p1> <p2> ... <pk>
         // 成功输出格式：PATH <DIST|TIME> <total_cost> NODES <id1> <id2> ...
         // 不可达输出：NO_PATH
         // 若顶点不存在：ERROR place_not_found
-        std::cerr << "cmdMustPass 还没实现" << std::endl;
-        std::cout << "ERROR not_implemented" << std::endl;
+        std::string from_id, to_id, mode;
+        int k;
+        if (!(args >> from_id >> to_id >> mode >> k)) {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        if (mode != "DIST" && mode != "TIME") {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        std::vector<std::string> must_pass;
+        for (int i = 0; i < k; ++i) {
+            std::string p;
+            if (!(args >> p)) {
+                std::cout << "ERROR invalid_arguments\n";
+                return;
+            }
+            must_pass.push_back(p);
+        }
+
+        std::vector<std::string> waypoints;
+        waypoints.push_back(from_id);
+        for (const auto& p : must_pass) waypoints.push_back(p);
+        waypoints.push_back(to_id);
+
+        int total_cost = 0;
+        std::vector<std::string> final_nodes;
+
+        Algorithm::PathMode p_mode = (mode == "DIST") ? Algorithm::PathMode::DIST : Algorithm::PathMode::TIME;
+        try {
+            for (size_t i = 0; i < waypoints.size() - 1; ++i) {
+                auto result = Algorithm::GetShortestPath(graph, waypoints[i], waypoints[i+1], p_mode);
+                if (!result.reachable || result.path.empty()) {
+                    std::cout << "NO_PATH\n";
+                    return;
+                }
+                
+                total_cost += result.total_cost;
+                
+                if (final_nodes.empty()) {
+                    final_nodes = result.path;
+                } else {
+                    final_nodes.insert(final_nodes.end(), result.path.begin() + 1, result.path.end());
+                }
+            }
+
+            std::cout << "PATH " << mode << " " << total_cost << " NODES";
+            for (const auto& node : final_nodes) {
+                std::cout << " " << node;
+            }
+            std::cout << "\n";
+        } catch (const GraphException& e) {
+            std::cout << e.what() << "\n";
+        }
     }
 
     // ==================== MST ====================
@@ -415,8 +518,33 @@ namespace Graph {
         // 成功输出格式：MST <total_distance> EDGES <u1>-<v1>:<w1> <u2>-<v2>:<w2> ...
         // 边按 (min(u,v), max(u,v)) 字典序排序输出
         // 图不连通输出：DISCONNECTED
-        std::cerr << "cmdMst 还没实现" << std::endl;
-        std::cout << "ERROR not_implemented" << std::endl;
+        auto mst = Algorithm::MinimumSpanningTree(graph);
+        if (mst.empty()) {
+            std::cout << "DISCONNECTED\n";
+            return;
+        }
+
+        int total_distance = 0;
+        for (const auto& edge : mst) {
+            total_distance += edge.distance;
+        }
+
+        std::sort(mst.begin(), mst.end(), [](const EdgeNode& a, const EdgeNode& b) {
+            std::string a_u = std::min(a.from_id, a.to_id);
+            std::string a_v = std::max(a.from_id, a.to_id);
+            std::string b_u = std::min(b.from_id, b.to_id);
+            std::string b_v = std::max(b.from_id, b.to_id);
+            if (a_u != b_u) return a_u < b_u;
+            return a_v < b_v;
+        });
+
+        std::cout << "MST " << total_distance << " EDGES";
+        for (const auto& edge : mst) {
+            std::string u = std::min(edge.from_id, edge.to_id);
+            std::string v = std::max(edge.from_id, edge.to_id);
+            std::cout << " " << u << "-" << v << ":" << edge.distance;
+        }
+        std::cout << "\n";
     }
 
     // ==================== CRITICAL ====================
@@ -426,8 +554,18 @@ namespace Graph {
         //   - 关键节点（删去后连通分量数增加的顶点）按 place_id 字典序输出
         //   - 关键边（删去后连通分量数增加的边）按 (min(u,v), max(u,v)) 字典序输出
         // 实现可调用 Algorithm::FindCriticalNodesAndEdges(graph)
-        std::cerr << "cmdCritical 还没实现" << std::endl;
-        std::cout << "ERROR not_implemented" << std::endl;
+        auto result = Algorithm::FindCriticalNodesAndEdges(graph);
+
+        std::cout << "CRITICAL NODES " << result.critical_nodes.size();
+        for (const auto& node : result.critical_nodes) {
+            std::cout << " " << node;
+        }
+
+        std::cout << " EDGES " << result.critical_edges.size();
+        for (const auto& edge : result.critical_edges) {
+            std::cout << " " << edge.first << "-" << edge.second;
+        }
+        std::cout << "\n";
     }
 
 }
