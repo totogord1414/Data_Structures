@@ -8,6 +8,7 @@
 
 #include "LGraph.h"
 #include <vector>
+#include <cmath>
 #include <queue>
 #include <string>
 #include <utility>
@@ -105,7 +106,10 @@ namespace Graph {
 
         struct CompareNodeCost {
             bool operator()(const NodeCost& a, const NodeCost& b) {
-                return a.cost > b.cost;
+                if (a.cost != b.cost) {
+                    return a.cost > b.cost;
+                }
+                return a.place_id > b.place_id;
             }
         };
 
@@ -115,6 +119,43 @@ namespace Graph {
             bool reachable;                     // 是否可达
 
             PathResult() : total_cost(0), reachable(false) {}
+        };
+
+        // ==================== 拓展 1：分层图最短路结果 ====================
+        struct StateK {
+            int time_cost;
+            int k_used;
+            std::string place_id;
+        };
+
+        struct CompareK {
+            bool operator()(const StateK& a, const StateK& b) {
+                if (a.time_cost != b.time_cost) {
+                    return a.time_cost > b.time_cost;
+                }
+                if (a.k_used != b.k_used) {
+                    return a.k_used > b.k_used;
+                }
+                return a.place_id > b.place_id;
+            }
+        };
+
+        struct ParentNode {
+            std::string prev_id;
+            int prev_k;
+            bool used_fast;
+        };
+
+
+
+        struct PathResultK {
+            int total_time;
+            int k_used;
+            std::vector<std::string> path;
+            std::vector<std::pair<std::string, std::string>> fast_edges;
+            bool reachable;
+
+            PathResultK() : total_time(0), k_used(0), reachable(false) {}
         };
 
         // ==================== 连通分量结果 ====================
@@ -156,6 +197,15 @@ namespace Graph {
                                         const std::string &to_id,
                                         const std::string &time,
                                         PathMode mode);
+
+        // B''. 拓展 1：带加速券的最短时间路径 (分层图 / 状态 DP)
+        // 在给定的最多 K 张加速券限制下，计算从起点到终点的最短时间
+        // - 每使用一张券，所经过的某条边的耗时缩小为 ceil(walk_time / 3)
+        // - 券不一定要用满
+        PathResultK GetShortestPathK(const LGraph &graph,
+                                     const std::string &from_id,
+                                     const std::string &to_id,
+                                     int max_k);
 
         // C. 必经点路径规划
         // 给定起点、终点和一串必须按序经过的地点，求总路径

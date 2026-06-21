@@ -51,6 +51,8 @@ namespace Graph {
             cmdShortest(iss);
         } else if (cmd == "TIMED_SHORTEST") {
             cmdTimedShortest(iss);
+        } else if (cmd == "SHORTEST_K") {
+            cmdShortestK(iss);
         } else if (cmd == "MUST_PASS") {
             cmdMustPass(iss);
         } else if (cmd == "MST") {
@@ -75,7 +77,7 @@ namespace Graph {
         //   4. 成功输出 "OK"，失败输出 "ERROR <reason>"
         std::string places_file, roads_file;
         if (!(args >> places_file >> roads_file)) {
-            std::cout << "ERROR invalide_arguments\n";
+            std::cout << "ERROR invalid_arguments\n";
             return;
         }
 
@@ -442,6 +444,40 @@ namespace Graph {
                     std::cout << " " << node;
                 }
                 std::cout << "\n";
+            }
+        } catch (const GraphException& e) {
+            std::cout << e.what() << "\n";
+        }
+    }
+
+    // ==================== SHORTEST_K ====================
+    void CommandProcessor::cmdShortestK(std::istringstream &args) {
+        std::string from_id, to_id;
+        int max_k;
+        if (!(args >> from_id >> to_id >> max_k)) {
+            std::cout << "ERROR invalid_arguments\n";
+            return;
+        }
+
+        try {
+            Algorithm::PathResultK result = Algorithm::GetShortestPathK(graph, from_id, to_id, max_k);
+            if (!result.reachable) {
+                std::cout << "NO_PATH\n";
+            } else {
+                std::cout << "PATH " << result.total_time << " K_USED " << result.k_used << " NODES";
+                for (const auto& node : result.path) {
+                    std::cout << " " << node;
+                }
+                
+                if (result.fast_edges.empty()) {
+                    std::cout << " FAST 0\n";
+                } else {
+                    std::cout << " FAST " << result.fast_edges.size();
+                    for (const auto& edge : result.fast_edges) {
+                        std::cout << " " << edge.first << "-" << edge.second;
+                    }
+                    std::cout << "\n";
+                }
             }
         } catch (const GraphException& e) {
             std::cout << e.what() << "\n";

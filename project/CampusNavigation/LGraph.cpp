@@ -134,6 +134,9 @@ namespace Graph {
         //   - 两端顶点必须都存在，否则抛异常
         //   - 边已存在则抛 GraphException
         //   - 无向图中注意反向关联
+        if (!exist_vertex(from_id) || !exist_vertex(to_id)) {
+            throw GraphException("ERROR <place_not_found>");
+        }
         if(exist_edge(from_id, to_id)) {
             throw GraphException("ERROR <road_already_exists>");
         } else {
@@ -215,17 +218,11 @@ namespace Graph {
     void LGraph::CloseRoad(const std::string &from_id, const std::string &to_id) {
         // TODO: 将边 status 设为 "closed"（可复用 UpdateEdge）
         UpdateEdge(from_id, to_id, "status", "closed");
-        if(!is_directed) {
-            UpdateEdge(to_id, from_id, "status", "closed");
-        }
     }
 
     void LGraph::OpenRoad(const std::string &from_id, const std::string &to_id) {
         // TODO: 将边 status 设为 "open"（可复用 UpdateEdge）
         UpdateEdge(from_id, to_id, "status", "open");
-        if(!is_directed) {
-            UpdateEdge(to_id, from_id, "status", "open");
-        }
     }
 
     // ==================== 遍历 / 高级查询 ====================

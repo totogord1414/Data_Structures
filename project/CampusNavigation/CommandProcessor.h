@@ -35,6 +35,7 @@ namespace Graph {
         void cmdComponents();
         void cmdShortest(std::istringstream &args);
         void cmdTimedShortest(std::istringstream &args);
+        void cmdShortestK(std::istringstream &args);
         void cmdMustPass(std::istringstream &args);
         void cmdMst();
         void cmdCritical();

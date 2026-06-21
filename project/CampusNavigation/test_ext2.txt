@@ -1,0 +1,2 @@
+LOAD ../data/ext2_hospital_places.csv ../data/ext2_hospital_roads.csv
+LOAD ../data/ext2_adversarial_places.csv ../data/ext2_adversarial_roads.csv

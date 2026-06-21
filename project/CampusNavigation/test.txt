@@ -1,0 +1,3 @@
+LOAD ../data/places.csv ../data/roads.csv
+SHORTEST_K P0001 P0002 2
+QUIT

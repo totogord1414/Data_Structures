@@ -69,7 +69,7 @@ namespace Graph {
                                    const std::string &from_id,
                                    const std::string &to_id,
                                    PathMode mode) {
-            (void)graph; (void)from_id; (void)to_id; (void)mode;
+            (void)from_id; (void)to_id; (void)mode;
             // TODO: 使用 Dijkstra 算法计算最短路径
             // 提示：
             //   1. 根据 mode 选择边权：DIST 使用 distance，TIME 使用 walk_time
@@ -160,7 +160,7 @@ namespace Graph {
                                         const std::string &to_id,
                                         const std::string &time,
                                         PathMode mode) {
-            (void)graph; (void)from_id; (void)to_id; (void)time; (void)mode;
+            (void)from_id; (void)to_id; (void)time; (void)mode;
             // TODO: 在给定时刻 time（HH:MM）下求最短路径
             // 提示：
             //   1. 判断某地点在 time 时是否开放：open_time <= time <= close_time（字符串比较即可）
@@ -269,7 +269,7 @@ namespace Graph {
                                    const std::string &to_id,
                                    PathMode mode,
                                    const std::vector<std::string> &waypoints) {
-            (void)graph; (void)from_id; (void)to_id; (void)mode; (void)waypoints;
+            (void)from_id; (void)to_id; (void)mode; (void)waypoints;
             // TODO: 计算必经点路径
             // 提示：
             //   1. 将路径拆分为多段：from -> w1 -> w2 -> ... -> wk -> to
@@ -444,5 +444,103 @@ namespace Graph {
 
             return result;
         }
+
+        PathResultK GetShortestPathK(const LGraph &graph,
+                                     const std::string &from_id,
+                                     const std::string &to_id,
+                                     int max_k) {
+            
+            const int INF = 1e9;
+
+            if (!graph.exist_vertex(from_id) || !graph.exist_vertex(to_id)) {
+                throw GraphException("ERROR <place_not_found>");
+            }
+
+            std::unordered_map<std::string, std::vector<int>> dist;
+            std::unordered_map<std::string, std::vector<ParentNode>> prev;
+
+            for (const auto& place_id : graph.AllPlaceIds()) {
+                dist[place_id].resize(max_k + 1, INF);
+                prev[place_id].resize(max_k + 1);
+            }
+
+            std::priority_queue<StateK, std::vector<StateK>, CompareK> pq;
+            dist[from_id][0] = 0;
+            pq.push({0, 0, from_id});
+            int critical_k = -1;
+            
+            while(!pq.empty()) {
+                StateK curr = pq.top();
+                pq.pop();
+                std::string place_id = curr.place_id;
+                int k = curr.k_used;
+                int cost = curr.time_cost;
+
+                if (place_id == to_id) {
+                    critical_k = k;
+                    break;
+                }
+
+                if (cost > dist[place_id][k]) {
+                    continue;
+                }
+
+                for (const auto& edge : graph.GetAdjacentEdges(place_id)) {
+                    if (edge.status != "open") {
+                        continue;
+                    }
+
+                    std::string neighbor_id = (edge.from_id == place_id ? edge.to_id : edge.from_id);
+
+                    if (dist[neighbor_id][k] > cost + edge.walk_time) {
+                        dist[neighbor_id][k] = cost + edge.walk_time;
+                        pq.push({dist[neighbor_id][k], k, neighbor_id});
+                        prev[neighbor_id][k] = {place_id, k, false};
+                    }
+
+                    if (k + 1 <= max_k && dist[neighbor_id][k + 1] > cost + std::ceil(edge.walk_time / 3.0)) {
+                        dist[neighbor_id][k + 1] = cost + std::ceil(edge.walk_time / 3.0);
+                        pq.push({dist[neighbor_id][k + 1], k + 1, neighbor_id});
+                        prev[neighbor_id][k + 1] = {place_id, k, true};
+                    }
+                }
+            }
+
+            PathResultK result;
+
+            if (critical_k != -1) {
+                result.reachable = true;
+                result.total_time = dist[to_id][critical_k];
+                result.k_used = critical_k;
+
+                std::string curr_node = to_id;
+                int curr_k = critical_k;
+                while (curr_node != from_id) {
+                    result.path.push_back(curr_node);
+
+                    ParentNode previous = prev[curr_node][curr_k];
+
+                    if (previous.used_fast) {
+                        std::string from = std::min(curr_node, previous.prev_id);
+                        std::string to = std::max(curr_node, previous.prev_id);
+
+                        result.fast_edges.push_back({from, to});
+                    }
+
+                    curr_k = previous.prev_k;
+                    curr_node = previous.prev_id;
+                }
+
+                result.path.push_back(from_id);
+
+                std::reverse(result.path.begin(), result.path.end());
+
+                std::sort(result.fast_edges.begin(), result.fast_edges.end());
+            }
+            
+
+            return result;
+        }
+
     }
 }
