@@ -56,7 +56,7 @@ namespace Graph {
         //   - 若 place_id 已存在，抛出 GraphException
         //   - 否则将其加入你的存储结构
         if(exist_vertex(vertex_info.place_id)) {
-            throw GraphException("ERROR <place_already_exists>");
+            throw GraphException("ERROR place_already_exists");
         } else {
             vertices[vertex_info.place_id] = vertex_info;
         }
@@ -67,7 +67,7 @@ namespace Graph {
         //   - 若 place_id 不存在，抛出 GraphException
         //   - 无向图中对端的邻接信息也要同步清理
         if(!exist_vertex(place_id)) {
-        throw GraphException("ERROR <place_not_found>");
+        throw GraphException("ERROR place_not_found");
         } else {
             if(is_directed) {
                 for(auto& pair: adj) {
@@ -93,7 +93,7 @@ namespace Graph {
         //   - place_id 不存在 → GraphException
         //   - field 不支持 → GraphException
         if(!exist_vertex(place_id)) {
-            throw GraphException("ERROR <place_not_found>");
+            throw GraphException("ERROR place_not_found");
         } else {
             if(field == "display_name") {
                 vertices[place_id].display_name = value;
@@ -108,7 +108,7 @@ namespace Graph {
                 vertices[place_id].close_time = value;
             } else {
 
-                throw GraphException("ERROR <invalid_field>");
+                throw GraphException("ERROR invalid_field");
 
             }
         }
@@ -120,7 +120,7 @@ namespace Graph {
         //doesn't call the get_vertex function for the sake of efficency
         auto it = vertices.find(place_id); 
         if (it == vertices.end()) {
-            throw GraphException("ERROR <place_not_found>");
+            throw GraphException("ERROR place_not_found");
         } else {
             return it->second;
         }
@@ -135,10 +135,10 @@ namespace Graph {
         //   - 边已存在则抛 GraphException
         //   - 无向图中注意反向关联
         if (!exist_vertex(from_id) || !exist_vertex(to_id)) {
-            throw GraphException("ERROR <place_not_found>");
+            throw GraphException("ERROR place_not_found");
         }
         if(exist_edge(from_id, to_id)) {
-            throw GraphException("ERROR <road_already_exists>");
+            throw GraphException("ERROR road_already_exists");
         } else {
             adj[from_id][to_id] = EdgeNode(from_id, to_id, distance, walk_time, status);
             if(!is_directed) {
@@ -152,7 +152,7 @@ namespace Graph {
         //   - 边不存在 → GraphException
         //   - 无向图中反向边同步删除
         if(!exist_edge(from_id, to_id)) {
-            throw GraphException("ERROR <road_not_found>");
+            throw GraphException("ERROR road_not_found");
         } else {
             adj[from_id].erase(to_id);
             if(!is_directed) {
@@ -169,7 +169,7 @@ namespace Graph {
         //   - status 只能是 "open" 或 "closed"
         //   - 无向图中两个方向需同时更新
         if(!exist_edge(from_id, to_id)) {
-            throw GraphException("ERROR <road_not_found>");
+            throw GraphException("ERROR road_not_found");
         } else {
             auto& edge = adj[from_id][to_id];
 
@@ -183,10 +183,10 @@ namespace Graph {
                 if(value == "closed" || value == "open") {
                     edge.status = value;
                 } else {
-                    throw GraphException("ERROR <invalid_value>");
+                    throw GraphException("ERROR invalid_field");
                 }
             } else {
-                throw GraphException("ERROR <invalid_field>");
+                throw GraphException("ERROR invalid_field");
             }
 
             if(!is_directed) {
@@ -203,11 +203,11 @@ namespace Graph {
         //   不存在 → GraphException
         auto from_it = adj.find(from_id);
         if(from_it == adj.end()) {
-            throw GraphException("ERROR <road_not_found>");
+            throw GraphException("ERROR road_not_found");
         } else {
             auto to_it = from_it->second.find(to_id);
             if(to_it == from_it->second.end()) {
-                throw GraphException("ERROR <road_not_found>");
+                throw GraphException("ERROR road_not_found");
             }
             return to_it->second;
         }
@@ -269,10 +269,13 @@ namespace Graph {
         // TODO: 返回某地点的所有邻接边完整信息
         //   place_id 不存在 → GraphException
         //   返回顺序由你决定
+        if (!exist_vertex(place_id)) {
+            throw GraphException("ERROR place_not_found");
+        }
         std::vector<EdgeNode> result;
         const auto vertex = adj.find(place_id);
         if(vertex == adj.end()) {
-            throw GraphException("ERROR <place_not_found>");
+            return result;  // 孤立节点，没有邻接边
         } else {
             for(const auto& neighbor: vertex->second) {
                 if(neighbor.first < place_id && !is_directed) {//如果是无向边的话要取出发节点更小的边

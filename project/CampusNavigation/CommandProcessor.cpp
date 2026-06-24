@@ -512,37 +512,18 @@ namespace Graph {
             must_pass.push_back(p);
         }
 
-        std::vector<std::string> waypoints;
-        waypoints.push_back(from_id);
-        for (const auto& p : must_pass) waypoints.push_back(p);
-        waypoints.push_back(to_id);
-
-        int total_cost = 0;
-        std::vector<std::string> final_nodes;
-
         Algorithm::PathMode p_mode = (mode == "DIST") ? Algorithm::PathMode::DIST : Algorithm::PathMode::TIME;
         try {
-            for (size_t i = 0; i < waypoints.size() - 1; ++i) {
-                auto result = Algorithm::GetShortestPath(graph, waypoints[i], waypoints[i+1], p_mode);
-                if (!result.reachable || result.path.empty()) {
-                    std::cout << "NO_PATH\n";
-                    return;
+            auto result = Algorithm::GetMustPassPath(graph, from_id, to_id, p_mode, must_pass);
+            if (!result.reachable || result.path.empty()) {
+                std::cout << "NO_PATH\n";
+            } else {
+                std::cout << "PATH " << mode << " " << result.total_cost << " NODES";
+                for (const auto& node : result.path) {
+                    std::cout << " " << node;
                 }
-                
-                total_cost += result.total_cost;
-                
-                if (final_nodes.empty()) {
-                    final_nodes = result.path;
-                } else {
-                    final_nodes.insert(final_nodes.end(), result.path.begin() + 1, result.path.end());
-                }
+                std::cout << "\n";
             }
-
-            std::cout << "PATH " << mode << " " << total_cost << " NODES";
-            for (const auto& node : final_nodes) {
-                std::cout << " " << node;
-            }
-            std::cout << "\n";
         } catch (const GraphException& e) {
             std::cout << e.what() << "\n";
         }
@@ -556,7 +537,12 @@ namespace Graph {
         // 图不连通输出：DISCONNECTED
         auto mst = Algorithm::MinimumSpanningTree(graph);
         if (mst.empty()) {
-            std::cout << "DISCONNECTED\n";
+            if (graph.VertexCount() <= 1) {
+                // 0 或 1 个节点的图是连通的，MST 边集为空
+                std::cout << "MST 0 EDGES\n";
+            } else {
+                std::cout << "DISCONNECTED\n";
+            }
             return;
         }
 

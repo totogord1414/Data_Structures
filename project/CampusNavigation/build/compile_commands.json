@@ -1,38 +1,38 @@
 [
 {
-  "directory": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\main.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\project\\CampusNavigation\\main.cpp",
-  "file": "C:/Users/ziton/Data_Structures/project/CampusNavigation/main.cpp",
-  "output": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build/CMakeFiles/CampusNavigation.dir/main.cpp.obj"
+  "directory": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/build",
+  "command": "C:\\Users\\ziton\\Desktop\\mingw64\\bin\\c++.exe   -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\main.cpp.obj -c \"C:\\Users\\ziton\\Desktop\\C\\data structure hw\\project\\CampusNavigation\\main.cpp\"",
+  "file": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/main.cpp",
+  "output": "CMakeFiles/CampusNavigation.dir/main.cpp.obj"
 },
 {
-  "directory": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\LGraph.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\project\\CampusNavigation\\LGraph.cpp",
-  "file": "C:/Users/ziton/Data_Structures/project/CampusNavigation/LGraph.cpp",
-  "output": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build/CMakeFiles/CampusNavigation.dir/LGraph.cpp.obj"
+  "directory": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/build",
+  "command": "C:\\Users\\ziton\\Desktop\\mingw64\\bin\\c++.exe   -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\LGraph.cpp.obj -c \"C:\\Users\\ziton\\Desktop\\C\\data structure hw\\project\\CampusNavigation\\LGraph.cpp\"",
+  "file": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/LGraph.cpp",
+  "output": "CMakeFiles/CampusNavigation.dir/LGraph.cpp.obj"
 },
 {
-  "directory": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\LocationInfo.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\project\\CampusNavigation\\LocationInfo.cpp",
-  "file": "C:/Users/ziton/Data_Structures/project/CampusNavigation/LocationInfo.cpp",
-  "output": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build/CMakeFiles/CampusNavigation.dir/LocationInfo.cpp.obj"
+  "directory": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/build",
+  "command": "C:\\Users\\ziton\\Desktop\\mingw64\\bin\\c++.exe   -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\LocationInfo.cpp.obj -c \"C:\\Users\\ziton\\Desktop\\C\\data structure hw\\project\\CampusNavigation\\LocationInfo.cpp\"",
+  "file": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/LocationInfo.cpp",
+  "output": "CMakeFiles/CampusNavigation.dir/LocationInfo.cpp.obj"
 },
 {
-  "directory": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\Algorithm.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\project\\CampusNavigation\\Algorithm.cpp",
-  "file": "C:/Users/ziton/Data_Structures/project/CampusNavigation/Algorithm.cpp",
-  "output": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build/CMakeFiles/CampusNavigation.dir/Algorithm.cpp.obj"
+  "directory": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/build",
+  "command": "C:\\Users\\ziton\\Desktop\\mingw64\\bin\\c++.exe   -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\Algorithm.cpp.obj -c \"C:\\Users\\ziton\\Desktop\\C\\data structure hw\\project\\CampusNavigation\\Algorithm.cpp\"",
+  "file": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/Algorithm.cpp",
+  "output": "CMakeFiles/CampusNavigation.dir/Algorithm.cpp.obj"
 },
 {
-  "directory": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\CsvIO.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\project\\CampusNavigation\\CsvIO.cpp",
-  "file": "C:/Users/ziton/Data_Structures/project/CampusNavigation/CsvIO.cpp",
-  "output": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build/CMakeFiles/CampusNavigation.dir/CsvIO.cpp.obj"
+  "directory": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/build",
+  "command": "C:\\Users\\ziton\\Desktop\\mingw64\\bin\\c++.exe   -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\CsvIO.cpp.obj -c \"C:\\Users\\ziton\\Desktop\\C\\data structure hw\\project\\CampusNavigation\\CsvIO.cpp\"",
+  "file": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/CsvIO.cpp",
+  "output": "CMakeFiles/CampusNavigation.dir/CsvIO.cpp.obj"
 },
 {
-  "directory": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build",
-  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\CommandProcessor.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\project\\CampusNavigation\\CommandProcessor.cpp",
-  "file": "C:/Users/ziton/Data_Structures/project/CampusNavigation/CommandProcessor.cpp",
-  "output": "C:/Users/ziton/Data_Structures/project/CampusNavigation/build/CMakeFiles/CampusNavigation.dir/CommandProcessor.cpp.obj"
+  "directory": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/build",
+  "command": "C:\\Users\\ziton\\Desktop\\mingw64\\bin\\c++.exe   -std=gnu++17 -o CMakeFiles\\CampusNavigation.dir\\CommandProcessor.cpp.obj -c \"C:\\Users\\ziton\\Desktop\\C\\data structure hw\\project\\CampusNavigation\\CommandProcessor.cpp\"",
+  "file": "C:/Users/ziton/Desktop/C/data structure hw/project/CampusNavigation/CommandProcessor.cpp",
+  "output": "CMakeFiles/CampusNavigation.dir/CommandProcessor.cpp.obj"
 }
 ]

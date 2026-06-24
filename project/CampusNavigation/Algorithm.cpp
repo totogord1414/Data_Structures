@@ -81,7 +81,7 @@ namespace Graph {
             const int INF = 1e9;
 
             if (!graph.exist_vertex(from_id) || !graph.exist_vertex(to_id)) {
-                throw GraphException("ERROR <place_not_found>");
+                throw GraphException("ERROR place_not_found");
             }
 
             std::unordered_map<std::string, std::string> prev;
@@ -172,7 +172,7 @@ namespace Graph {
 
 
             if (!graph.exist_vertex(from_id) || !graph.exist_vertex(to_id)) {
-                throw GraphException("ERROR <place_not_found>");
+                throw GraphException("ERROR place_not_found");
             }
             
             LocationInfo from_info = graph.GetVertex(from_id);
@@ -337,8 +337,12 @@ namespace Graph {
                 curr_id++;
             }
 
-            if (curr_id <= 1) {
+            if (curr_id == 0) {
                 return {};
+            }
+
+            if (curr_id == 1) {
+                return {};  // 单节点图，MST 边数 = 0 = n-1，合法
             }
             
             DSU uf(curr_id);
@@ -453,7 +457,7 @@ namespace Graph {
             const int INF = 1e9;
 
             if (!graph.exist_vertex(from_id) || !graph.exist_vertex(to_id)) {
-                throw GraphException("ERROR <place_not_found>");
+                throw GraphException("ERROR place_not_found");
             }
 
             std::unordered_map<std::string, std::vector<int>> dist;
@@ -498,8 +502,9 @@ namespace Graph {
                         prev[neighbor_id][k] = {place_id, k, false};
                     }
 
-                    if (k + 1 <= max_k && dist[neighbor_id][k + 1] > cost + std::ceil(edge.walk_time / 3.0)) {
-                        dist[neighbor_id][k + 1] = cost + std::ceil(edge.walk_time / 3.0);
+                    int fast_time = (edge.walk_time + 2) / 3;
+                    if (k + 1 <= max_k && dist[neighbor_id][k + 1] > cost + fast_time) {
+                        dist[neighbor_id][k + 1] = cost + fast_time;
                         pq.push({dist[neighbor_id][k + 1], k + 1, neighbor_id});
                         prev[neighbor_id][k + 1] = {place_id, k, true};
                     }

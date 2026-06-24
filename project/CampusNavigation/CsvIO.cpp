@@ -12,7 +12,7 @@ namespace Graph {
     namespace CsvIO {
 
         std::vector<LocationInfo> ReadPlaces(const std::string &path) {
-            (void)path;
+            std::vector<LocationInfo> result;
             // TODO: 从 CSV 读取地点信息
             // 提示：
             //   1. 打开文件，若失败则输出错误信息并返回空 vector
@@ -21,8 +21,6 @@ namespace Graph {
             //   4. 跳过空行
             //   5. 每行解析为：place_id, display_name, category, stay_time, open_time, close_time
             //   6. 将解析结果加入 vector 并返回
-            std::vector<LocationInfo> result;
-
             std::ifstream file(path);
             if(!file.is_open()) {
                 std::cerr << "fail to open the file" << path << std::endl;
@@ -39,6 +37,10 @@ namespace Graph {
 
                 if(line.find("place_id") == 0) {
                     continue;
+                }
+
+                if (!line.empty() && line.back() == '\r') {
+                    line.pop_back();
                 }
 
                 for(char& c : line) {
@@ -60,7 +62,6 @@ namespace Graph {
         }
 
         std::vector<RoadRecord> ReadRoads(const std::string &path) {
-            (void)path;
             // TODO: 从 CSV 读取道路信息
             // 提示：
             //   1. 打开文件，若失败则输出错误信息并返回空 vector
@@ -89,6 +90,10 @@ namespace Graph {
                     continue;
                 }
 
+                if (!line.empty() && line.back() == '\r') {
+                    line.pop_back();
+                }
+
                 for (char& c : line) {
                     if (c == ',') {
                         c = ' ';
@@ -110,8 +115,6 @@ namespace Graph {
         }
 
         void WritePlaces(const std::string &path, const LGraph &graph) {
-            (void)path;
-            (void)graph;
             // TODO: 将地点信息写回 CSV
             // 提示：
             //   1. 打开文件输出流
