@@ -1,0 +1,16 @@
+place_id,display_name,category,stay_time,open_time,close_time
+H001,门诊大厅,building,10,08:00,18:00
+H002,急诊中心,building,5,00:00,24:00
+H003,挂号收费处,facility,15,08:00,18:00
+H004,药房,facility,10,00:00,24:00
+H005,采血中心,facility,20,08:00,12:00
+H006,放射科CT,building,30,08:00,18:00
+H007,住院部A区,building,0,00:00,24:00
+H008,住院部B区,building,0,00:00,24:00
+H009,手术室,facility,0,00:00,24:00
+H010,医院正门,gate,0,00:00,24:00
+H011,医院北门,gate,0,06:00,22:00
+H012,职工餐厅,facility,30,11:00,13:00
+H013,康复中心,building,45,09:00,17:00
+H014,地下停车场,facility,5,00:00,24:00
+H015,医疗垃圾处理站,facility,0,00:00,24:00

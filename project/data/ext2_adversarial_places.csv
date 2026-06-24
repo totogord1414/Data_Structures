@@ -1,0 +1,6 @@
+place_id,display_name,category,stay_time,open_time,close_time
+A,起点门,gate,0,00:00,24:00
+B,陷阱节点1,facility,0,00:00,24:00
+C,绕远节点,facility,0,00:00,24:00
+D,陷阱节点2,facility,0,00:00,24:00
+E,终点门,gate,0,00:00,24:00

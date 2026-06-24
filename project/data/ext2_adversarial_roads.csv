@@ -1,0 +1,7 @@
+from_id,to_id,distance,walk_time,status
+A,B,10,1,open
+A,C,100,10,open
+B,D,10,1,open
+B,E,1000,100,open
+C,E,100,10,open
+D,E,1000,100,open
