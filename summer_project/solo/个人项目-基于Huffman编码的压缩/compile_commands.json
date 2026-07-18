@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/include -g -std=gnu++17 -o CMakeFiles\\Huffman.dir\\src\\main.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\summer_project\\solo\\个人项目-基于Huffman编码的压缩\\src\\main.cpp",
+  "file": "C:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/src/main.cpp",
+  "output": "C:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/build/CMakeFiles/Huffman.dir/src/main.cpp.obj"
+}
+]

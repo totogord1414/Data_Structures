@@ -1,0 +1,10 @@
+# ninja log v7
+42	318	8059755005004732	CMakeFiles/Huffman.dir/src/main.cpp.obj	df6f954ad56a37c4
+32	459	8059755093020949	CMakeFiles/Huffman.dir/src/HashUtils.cpp.obj	6f4948cbf5054b39
+6	520	8059755092750207	CMakeFiles/Huffman.dir/src/CLI.cpp.obj	a56392854ee771d9
+47	565	8059755093169055	CMakeFiles/Huffman.dir/src/HuffmanTree.cpp.obj	79673f6686476082
+19	581	8059755092880532	CMakeFiles/Huffman.dir/src/FileProcessor.cpp.obj	6e29531eda3060c9
+37	258	8060715782313710	CMakeFiles/Huffman.dir/src/main.cpp.obj	df6f954ad56a37c4
+23	433	8060715782169003	CMakeFiles/Huffman.dir/src/FileProcessor.cpp.obj	6e29531eda3060c9
+9	548	8060715782018774	CMakeFiles/Huffman.dir/src/CLI.cpp.obj	a56392854ee771d9
+548	759	8060715787418996	Huffman.exe	994fb88693875d6f
