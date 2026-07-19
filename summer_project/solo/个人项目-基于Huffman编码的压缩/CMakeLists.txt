@@ -11,9 +11,14 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # 4. 告诉编译器：如果要找 .h 头文件，去 include 文件夹里找
 include_directories(include)
 
-# 5. 自动搜集 src 文件夹下所有的 .cpp 文件，存放到 SOURCES 变量里
-file(GLOB SOURCES "src/*.cpp")
-
+# 5. 手动列出所有 .cpp 源文件（推荐做法，避免新增文件时 CMake 没发现）
+set(SOURCES
+    src/main.cpp
+    src/CLI.cpp
+    src/FileProcessor.cpp
+    src/HuffmanTree.cpp
+    src/HashUtils.cpp
+)
 
 # 6. 终极目标：用找到的所有 .cpp 文件，生成一个名叫 Huffman 的可执行文件
 add_executable(Huffman ${SOURCES})

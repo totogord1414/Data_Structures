@@ -18,6 +18,8 @@ private:
 
     static std::vector<int> calculateFrequencies(const std::string& inputPath);
 
+    static void coreCompress(const std::string& inputPath, const std::vector<int>& freqToUse, 
+    bool isAdaptive);
 
 };
 

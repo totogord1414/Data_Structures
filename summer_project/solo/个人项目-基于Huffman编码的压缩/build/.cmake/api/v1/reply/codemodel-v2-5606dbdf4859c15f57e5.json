@@ -1,0 +1,61 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : [],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-b5805d5c08fd3d92def4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "HuffmanCompression",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Huffman::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Huffman-Debug-a240bffbba561abdb24f.json",
+					"name" : "Huffman",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/ziton/Data_Structures/summer_project/solo/\u4e2a\u4eba\u9879\u76ee-\u57fa\u4e8eHuffman\u7f16\u7801\u7684\u538b\u7f29/build",
+		"source" : "C:/Users/ziton/Data_Structures/summer_project/solo/\u4e2a\u4eba\u9879\u76ee-\u57fa\u4e8eHuffman\u7f16\u7801\u7684\u538b\u7f29"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 11
+	}
+}

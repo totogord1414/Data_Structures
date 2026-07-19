@@ -49,6 +49,15 @@ cmake_ninja_workdir = C$:/Users/ziton/Data_Structures/summer_project/solo/个人
 
 build cmake_object_order_depends_target_Huffman: phony || .
 
+build CMakeFiles/Huffman.dir/src/main.cpp.obj: CXX_COMPILER__Huffman_unscanned_Debug C$:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/src/main.cpp || cmake_object_order_depends_target_Huffman
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\Huffman.dir\src\main.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/include
+  OBJECT_DIR = CMakeFiles\Huffman.dir
+  OBJECT_FILE_DIR = CMakeFiles\Huffman.dir\src
+  TARGET_SUPPORT_DIR = CMakeFiles\Huffman.dir
+
 build CMakeFiles/Huffman.dir/src/CLI.cpp.obj: CXX_COMPILER__Huffman_unscanned_Debug C$:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/src/CLI.cpp || cmake_object_order_depends_target_Huffman
   CONFIG = Debug
   DEP_FILE = CMakeFiles\Huffman.dir\src\CLI.cpp.obj.d
@@ -67,9 +76,18 @@ build CMakeFiles/Huffman.dir/src/FileProcessor.cpp.obj: CXX_COMPILER__Huffman_un
   OBJECT_FILE_DIR = CMakeFiles\Huffman.dir\src
   TARGET_SUPPORT_DIR = CMakeFiles\Huffman.dir
 
-build CMakeFiles/Huffman.dir/src/main.cpp.obj: CXX_COMPILER__Huffman_unscanned_Debug C$:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/src/main.cpp || cmake_object_order_depends_target_Huffman
+build CMakeFiles/Huffman.dir/src/HuffmanTree.cpp.obj: CXX_COMPILER__Huffman_unscanned_Debug C$:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/src/HuffmanTree.cpp || cmake_object_order_depends_target_Huffman
   CONFIG = Debug
-  DEP_FILE = CMakeFiles\Huffman.dir\src\main.cpp.obj.d
+  DEP_FILE = CMakeFiles\Huffman.dir\src\HuffmanTree.cpp.obj.d
+  FLAGS = -g -std=gnu++17
+  INCLUDES = -IC:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/include
+  OBJECT_DIR = CMakeFiles\Huffman.dir
+  OBJECT_FILE_DIR = CMakeFiles\Huffman.dir\src
+  TARGET_SUPPORT_DIR = CMakeFiles\Huffman.dir
+
+build CMakeFiles/Huffman.dir/src/HashUtils.cpp.obj: CXX_COMPILER__Huffman_unscanned_Debug C$:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/src/HashUtils.cpp || cmake_object_order_depends_target_Huffman
+  CONFIG = Debug
+  DEP_FILE = CMakeFiles\Huffman.dir\src\HashUtils.cpp.obj.d
   FLAGS = -g -std=gnu++17
   INCLUDES = -IC:/Users/ziton/Data_Structures/summer_project/solo/个人项目-基于Huffman编码的压缩/include
   OBJECT_DIR = CMakeFiles\Huffman.dir
@@ -84,7 +102,7 @@ build CMakeFiles/Huffman.dir/src/main.cpp.obj: CXX_COMPILER__Huffman_unscanned_D
 #############################################
 # Link the executable Huffman.exe
 
-build Huffman.exe: CXX_EXECUTABLE_LINKER__Huffman_Debug CMakeFiles/Huffman.dir/src/CLI.cpp.obj CMakeFiles/Huffman.dir/src/FileProcessor.cpp.obj CMakeFiles/Huffman.dir/src/main.cpp.obj
+build Huffman.exe: CXX_EXECUTABLE_LINKER__Huffman_Debug CMakeFiles/Huffman.dir/src/main.cpp.obj CMakeFiles/Huffman.dir/src/CLI.cpp.obj CMakeFiles/Huffman.dir/src/FileProcessor.cpp.obj CMakeFiles/Huffman.dir/src/HuffmanTree.cpp.obj CMakeFiles/Huffman.dir/src/HashUtils.cpp.obj
   CONFIG = Debug
   FLAGS = -g
   LINK_LIBRARIES = -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32

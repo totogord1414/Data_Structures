@@ -13,6 +13,8 @@ struct HuffmanNode {
     HuffmanNode(unsigned char d, int f) {
         data = d;
         freq = f;
+        left = nullptr;
+        right = nullptr;
     }
 };
 
@@ -32,6 +34,10 @@ public:
     ~HuffmanTree();
 
     void buildTree(const std::vector<int>& frenquencies);
+
+    HuffmanNode* getRoot() const {
+        return root;
+    }
 
     std::vector<std::string> getCodes() const;
 private:
