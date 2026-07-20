@@ -1,0 +1,61 @@
+{
+	"configurations" : 
+	[
+		{
+			"abstractTargets" : [],
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-b5805d5c08fd3d92def4.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "CainiaoDeliverySystem",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "CainiaoDeliverySystem::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-CainiaoDeliverySystem-Debug-4962757720bb00cd9b9b.json",
+					"name" : "CainiaoDeliverySystem",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "C:/Users/ziton/Data_Structures/summer_project/multi/\u83dc\u9e1f\u9a7f\u7ad9\u914d\u9001\u9879\u76ee/build",
+		"source" : "C:/Users/ziton/Data_Structures/summer_project/multi/\u83dc\u9e1f\u9a7f\u7ad9\u914d\u9001\u9879\u76ee"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 11
+	}
+}

@@ -1,0 +1,32 @@
+[
+{
+  "directory": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/include -g -std=gnu++17 -o CMakeFiles\\CainiaoDeliverySystem.dir\\src\\core\\DataLoader.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\summer_project\\multi\\菜鸟驿站配送项目\\src\\core\\DataLoader.cpp",
+  "file": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/src/core/DataLoader.cpp",
+  "output": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build/CMakeFiles/CainiaoDeliverySystem.dir/src/core/DataLoader.cpp.obj"
+},
+{
+  "directory": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/include -g -std=gnu++17 -o CMakeFiles\\CainiaoDeliverySystem.dir\\src\\core\\Router.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\summer_project\\multi\\菜鸟驿站配送项目\\src\\core\\Router.cpp",
+  "file": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/src/core/Router.cpp",
+  "output": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build/CMakeFiles/CainiaoDeliverySystem.dir/src/core/Router.cpp.obj"
+},
+{
+  "directory": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/include -g -std=gnu++17 -o CMakeFiles\\CainiaoDeliverySystem.dir\\src\\core\\TaskSolver.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\summer_project\\multi\\菜鸟驿站配送项目\\src\\core\\TaskSolver.cpp",
+  "file": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/src/core/TaskSolver.cpp",
+  "output": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build/CMakeFiles/CainiaoDeliverySystem.dir/src/core/TaskSolver.cpp.obj"
+},
+{
+  "directory": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/include -g -std=gnu++17 -o CMakeFiles\\CainiaoDeliverySystem.dir\\src\\data_structure\\MinHeap.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\summer_project\\multi\\菜鸟驿站配送项目\\src\\data_structure\\MinHeap.cpp",
+  "file": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/src/data_structure/MinHeap.cpp",
+  "output": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build/CMakeFiles/CainiaoDeliverySystem.dir/src/data_structure/MinHeap.cpp.obj"
+},
+{
+  "directory": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe -IC:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/include -g -std=gnu++17 -o CMakeFiles\\CainiaoDeliverySystem.dir\\src\\main.cpp.obj -c C:\\Users\\ziton\\Data_Structures\\summer_project\\multi\\菜鸟驿站配送项目\\src\\main.cpp",
+  "file": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/src/main.cpp",
+  "output": "C:/Users/ziton/Data_Structures/summer_project/multi/菜鸟驿站配送项目/build/CMakeFiles/CainiaoDeliverySystem.dir/src/main.cpp.obj"
+}
+]
