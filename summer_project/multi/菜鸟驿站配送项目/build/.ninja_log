@@ -1,7 +1,7 @@
 # ninja log v7
-100	673	8061793596291808	CMakeFiles/CainiaoDeliverySystem.dir/src/main.cpp.obj	29133729d8ce0dbc
+40	808	8062686327902342	CMakeFiles/CainiaoDeliverySystem.dir/src/main.cpp.obj	29133729d8ce0dbc
 59	476	8061760984097086	CMakeFiles/CainiaoDeliverySystem.dir/src/data_structure/MinHeap.cpp.obj	d566a922cc5d7c71
 47	757	8061793595761682	CMakeFiles/CainiaoDeliverySystem.dir/src/core/DataLoader.cpp.obj	85310942f806f103
-757	1088	8061793602864459	CainiaoDeliverySystem.exe	ff348ddfc27db0d8
-80	613	8061793596099330	CMakeFiles/CainiaoDeliverySystem.dir/src/core/TaskSolver.cpp.obj	c734baaaf11a0d1a
-65	661	8061793595938465	CMakeFiles/CainiaoDeliverySystem.dir/src/core/Router.cpp.obj	653dcd70f30f00ca
+984	1237	8062689343505624	CainiaoDeliverySystem.exe	ff348ddfc27db0d8
+33	983	8062689333993240	CMakeFiles/CainiaoDeliverySystem.dir/src/core/TaskSolver.cpp.obj	c734baaaf11a0d1a
+40	579	8062679657266689	CMakeFiles/CainiaoDeliverySystem.dir/src/core/Router.cpp.obj	653dcd70f30f00ca

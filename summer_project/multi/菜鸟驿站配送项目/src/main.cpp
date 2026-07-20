@@ -16,9 +16,8 @@ int main() {
     std::vector<models::Package> packages;
     models::Car car;
 
-    std::string data_dir = "data/example";
+    std::string data_dir = "test_data/example";
 
-    std::cout << "Loading data..." << std::endl;
     core::DataLoader::loadGraph(data_dir, graph);
     core::DataLoader::loadPackages(data_dir, packages);
     core::DataLoader::loadCar(data_dir, car);
@@ -33,6 +32,11 @@ int main() {
 
     std::cout << "\n========== Task 3: Transport Cost Optimization ==========" << std::endl;
     solver.solveT3();
+
+    std::cout << "\n========== Task 4: TSP Return Logistics ==========" << std::endl;
+    //decide yourself all the return Nodes
+    std::vector<int> returnNodes = {1, 2, 4, 5}; 
+    solver.solveT4(returnNodes);
 
     return 0;
 }

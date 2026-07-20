@@ -57,5 +57,29 @@ namespace core {
         return result;
     }
 
+    std::vector<double> Router::getAllShortestDistances(int start) {
+        int n = graph.getNodeCount();
+        std::vector<double> dist(n, INF);
+        data_structures::MinHeap heap(n);
+
+        dist[start] = 0.0;
+        heap.pushOrUpdate(start, 0.0);
+
+        while (!heap.empty()) {
+            int u = heap.pop();
+
+            for (const auto& edge : graph.getNeightors(u)) {
+                int v = edge.to;
+                double weight = edge.weight;
+
+                if (dist[v] > dist[u] + weight) {
+                    dist[v] = dist[u] + weight;
+                    heap.pushOrUpdate(v, dist[v]);
+                }
+            }
+        }
+
+        return dist;
+    }
 
 }

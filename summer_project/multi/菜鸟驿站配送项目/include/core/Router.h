@@ -18,8 +18,11 @@ namespace core {
 
         Router(const data_structures::Graph& g) : graph(g) {}
 
-
+        // Calculate shortest path to a specific end node
         PathResult getShortestPath(int start, int end);
+        
+        // Calculate shortest distances from start to ALL nodes
+        std::vector<double> getAllShortestDistances(int start);
     };
 
 }
