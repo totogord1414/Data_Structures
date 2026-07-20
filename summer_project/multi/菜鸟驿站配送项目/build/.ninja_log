@@ -1,10 +1,7 @@
 # ninja log v7
-12	915	8061760725257800	CMakeFiles/CainiaoDeliverySystem.dir/src/main.cpp.obj	29133729d8ce0dbc
-59	476	8061760984097086	CMakeFiles/CainiaoDeliverySystem.dir/src/data_structure/MinHeap.cpp.obj	d566a922cc5d7c71
-41	685	8061760983925679	CMakeFiles/CainiaoDeliverySystem.dir/src/core/DataLoader.cpp.obj	85310942f806f103
-685	909	8061760990359299	CainiaoDeliverySystem.exe	f8e97e3a02b3312b
-80	613	8061793596099330	CMakeFiles/CainiaoDeliverySystem.dir/src/core/TaskSolver.cpp.obj	c734baaaf11a0d1a
-65	661	8061793595938465	CMakeFiles/CainiaoDeliverySystem.dir/src/core/Router.cpp.obj	653dcd70f30f00ca
 100	673	8061793596291808	CMakeFiles/CainiaoDeliverySystem.dir/src/main.cpp.obj	29133729d8ce0dbc
+59	476	8061760984097086	CMakeFiles/CainiaoDeliverySystem.dir/src/data_structure/MinHeap.cpp.obj	d566a922cc5d7c71
 47	757	8061793595761682	CMakeFiles/CainiaoDeliverySystem.dir/src/core/DataLoader.cpp.obj	85310942f806f103
 757	1088	8061793602864459	CainiaoDeliverySystem.exe	ff348ddfc27db0d8
+80	613	8061793596099330	CMakeFiles/CainiaoDeliverySystem.dir/src/core/TaskSolver.cpp.obj	c734baaaf11a0d1a
+65	661	8061793595938465	CMakeFiles/CainiaoDeliverySystem.dir/src/core/Router.cpp.obj	653dcd70f30f00ca
