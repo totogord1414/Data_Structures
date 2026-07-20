@@ -19,6 +19,10 @@ namespace core {
         distCache.resize(n, std::vector<double>(n, -1.0));
     }
 
+
+
+
+
     double TaskSolver::getDistance(int u, int v) {
         if (u == v) return 0.0;
         
@@ -32,6 +36,12 @@ namespace core {
         }
         return distCache[u][v];
     }
+
+
+
+
+
+
 
     void TaskSolver::solveT1(int startNode, int endNode) {
         Router::PathResult result = router.getShortestPath(startNode, endNode);
@@ -48,6 +58,9 @@ namespace core {
         }
         std::cout << std::endl;
     }
+
+
+
 
     void TaskSolver::solveT2() {
         
@@ -106,16 +119,21 @@ namespace core {
         std::cout << "The total dissatisfactio through T2's algorithm is: " << totalDissatisfaction << std::endl;
     }
 
-    void TaskSolver::solveT3() {
-        
-        std::vector<models::Package> pending = packages;
+
+
+
+    
+
+
+    double TaskSolver::simulateSingleCar(const std::vector<models::Package>& p, int& timeOutCount, Strategy strategy) {
+        std::vector<models::Package> pending = p;
 
         std::sort(pending.begin(), pending.end(), [](const models::Package& a, const models::Package& b) {
             return a.deadline < b.deadline;
         });
 
         double totalCost = 0.0;
-        int timeOutCount = 0;
+        timeOutCount = 0;
         double currentTime = 0;
 
         while (!pending.empty()) {
@@ -138,7 +156,14 @@ namespace core {
                 for (int i = 0; i < currCarLoad.size(); i++) {
                     double dist = getDistance(currPos, currCarLoad[i].dest);
 
-                    double score = currCarLoad[i].weight / (dist + 0.00001); // ai advise us to add this in case the dist is actually zero
+                    double score = 0.0;
+                    if (strategy == Strategy::NEAREST_NEIGHBOR) {
+                        score = 1.0 / (dist + 0.00001); // Distance only (Nearest first)
+                    } else if (strategy == Strategy::HEAVIEST_FIRST) {
+                        score = currCarLoad[i].weight; // Weight only (Heaviest first)
+                    } else if (strategy == Strategy::COMPOSITE) {
+                        score = currCarLoad[i].weight / (dist + 0.00001); // Combined strategy
+                    }
                     
                     if (score > bestScore) {
                         bestScore = score;
@@ -159,7 +184,6 @@ namespace core {
                     timeOutCount++;
                 }
 
-
                 currCarLoad.erase(currCarLoad.begin() + bestIndex);
             }
 
@@ -168,10 +192,30 @@ namespace core {
             totalCost += returnDist * car.car_weight;
             currentTime += returnDist / car.speed;
         }
+        
+        return totalCost;
+    }
+
+
+
+
+
+
+
+    void TaskSolver::solveT3() {
+        int timeOutCount = 0;
+        double totalCost = simulateSingleCar(packages, timeOutCount);
 
         std::cout << "T3 whole cost: " << totalCost << std::endl;
         std::cout << "T3 time out packages count: " << timeOutCount << std::endl;
     }
+
+
+
+
+
+
+
 
     void TaskSolver::solveT4(const std::vector<int>& inputNodes) {
         std::vector<int> returnNodes; 
@@ -248,30 +292,28 @@ namespace core {
                 returnNodes.erase(returnNodes.begin() + bestIndex);
             }
             
-            // ==========================================
-            // 2-Opt Local Search Optimization
-            // ==========================================
             // Build the full cycle starting and ending at 0
             std::vector<int> fullRoute = {0};
             fullRoute.insert(fullRoute.end(), route.begin(), route.end());
             fullRoute.push_back(0);
 
             bool improved = true;
-            while (improved) {
+            int max_iters = 2000;
+            while (improved && max_iters-- > 0) {
                 improved = false;
                 // Try swapping every possible pair of edges (i-1 to i) and (j to j+1)
-                for (size_t i = 1; i < fullRoute.size() - 2; ++i) {
-                    for (size_t j = i + 1; j < fullRoute.size() - 1; ++j) {
+                for (int i = 1; i < fullRoute.size() - 2; ++i) {
+                    for (int j = i + 1; j < fullRoute.size() - 1; ++j) {
                         int A = fullRoute[i - 1];
                         int B = fullRoute[i];
                         int C = fullRoute[j];
                         int D = fullRoute[j + 1];
 
                         double oldDist = getDistance(A, B) + getDistance(C, D);
-                        double newDist = getDistance(A, C) + getDistance(B, D); // Cross connect
+                        double newDist = getDistance(A, C) + getDistance(B, D); 
 
-                        // If the new connection is strictly shorter, we accept it!
                         if (newDist < oldDist - 1e-6) { 
+
                             // Reversing the subroute effectively swaps the edges
                             std::reverse(fullRoute.begin() + i, fullRoute.begin() + j + 1);
                             improved = true;
@@ -280,19 +322,87 @@ namespace core {
                 }
             }
 
-            // Recalculate optimized total distance
             totalDist = 0.0;
-            for (size_t i = 0; i < fullRoute.size() - 1; ++i) {
+            for (int i = 0; i < fullRoute.size() - 1; ++i) {
                 totalDist += getDistance(fullRoute[i], fullRoute[i+1]);
             }
 
-            std::cout << "[Heuristic Solver with 2-Opt] T4 Return Dist: " << totalDist << std::endl;
+            std::cout << "[Not So Exact Solver with 2-Opt] T4 Return Dist: " << totalDist << std::endl;
             std::cout << "Route: ";
-            for (size_t i = 0; i < fullRoute.size(); ++i) {
+            for (int i = 0; i < fullRoute.size(); ++i) {
                 std::cout << fullRoute[i] << (i == fullRoute.size() - 1 ? "" : " -> ");
             }
             std::cout << std::endl;
         }
+    }
+
+
+
+
+
+
+
+    void TaskSolver::solveT5() {
+        if (packages.size() < 2) {
+            std::cout << "Not enough packages for two cars." << std::endl;
+            return;
+        }
+
+        // 1. Find Anchor Points
+        int anchor1_idx = 0;
+        int anchor2_idx = 1;
+        double max_dist = -1.0;
+
+        for (int i = 0; i < packages.size(); ++i) {
+            for (int j = i + 1; j < packages.size(); ++j) {
+                double d = getDistance(packages[i].dest, packages[j].dest);
+                if (d > max_dist) {
+                    max_dist = d;
+                    anchor1_idx = i;
+                    anchor2_idx = j;
+                }
+            }
+        }
+
+        int anchor1 = packages[anchor1_idx].dest;
+        int anchor2 = packages[anchor2_idx].dest;
+
+        // 2. Cluster Packages
+        std::vector<models::Package> packagesCar1;
+        std::vector<models::Package> packagesCar2;
+
+        for (const auto& pkg : packages) {
+            double dist1 = getDistance(pkg.dest, anchor1);
+            double dist2 = getDistance(pkg.dest, anchor2);
+            if (dist1 < dist2) {
+                packagesCar1.push_back(pkg);
+            } else {
+                packagesCar2.push_back(pkg);
+            }
+        }
+
+        // 3. Route & Evaluate
+        int timeout1 = 0;
+        int timeout2 = 0;
+        double cost1 = simulateSingleCar(packagesCar1, timeout1);
+        double cost2 = simulateSingleCar(packagesCar2, timeout2);
+
+        std::cout << "Car 1 took " << packagesCar1.size() << " packages. Cost: " << cost1 << " | Timeouts: " << timeout1 << std::endl;
+        std::cout << "Car 2 took " << packagesCar2.size() << " packages. Cost: " << cost2 << " | Timeouts: " << timeout2 << std::endl;
+        std::cout << "T5 Total Cost: " << (cost1 + cost2) << std::endl;
+        std::cout << "T5 Total Timeouts: " << (timeout1 + timeout2) << std::endl;
+    }
+
+    void TaskSolver::solveT6() {
+        int t_nn = 0, t_heavy = 0, t_comp = 0;
+        double cost_nn = simulateSingleCar(packages, t_nn, Strategy::NEAREST_NEIGHBOR);
+        double cost_heavy = simulateSingleCar(packages, t_heavy, Strategy::HEAVIEST_FIRST);
+        double cost_comp = simulateSingleCar(packages, t_comp, Strategy::COMPOSITE);
+
+        std::cout << "  [Nearest Neighbor] Cost: " << cost_nn    << ", Timeouts: " << t_nn << std::endl;
+        std::cout << "  [Heaviest First]   Cost: " << cost_heavy << ", Timeouts: " << t_heavy << std::endl;
+        std::cout << "  [Composite]        Cost: " << cost_comp  << ", Timeouts: " << t_comp << std::endl;
+        std::cout << std::endl;
     }
 
 }

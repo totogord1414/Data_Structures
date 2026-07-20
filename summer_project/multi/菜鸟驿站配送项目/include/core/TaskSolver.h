@@ -9,23 +9,25 @@
 
 namespace core {
 
+    enum class Strategy {
+        NEAREST_NEIGHBOR, // Baseline 1: Distance only
+        HEAVIEST_FIRST,   // Baseline 2: Weight only
+        COMPOSITE         // Improved: Weight / Distance
+    };
+
     class TaskSolver {
     private:
-        const data_structures::Graph& graph;
-        const std::vector<models::Package>& packages;
-        const models::Car& car;
+        data_structures::Graph graph;
+        std::vector<models::Package> packages;
+        models::Car car;
         Router router;
 
-        // 懒汉缓存表：保存算过的两点距离
         std::vector<std::vector<double>> distCache;
 
-        // 带缓存的距离查询接口
-        double getDistance(int u, int v);
-
     public:
-        TaskSolver(const data_structures::Graph& g, 
-                   const std::vector<models::Package>& p, 
-                   const models::Car& c);
+        TaskSolver(const data_structures::Graph& g, const std::vector<models::Package>& p, const models::Car& c);
+
+        double getDistance(int u, int v);
 
         void solveT1(int startNode, int endNode);
         
@@ -34,6 +36,13 @@ namespace core {
         void solveT3();
         
         void solveT4(const std::vector<int>& returnNodes);
+
+        void solveT5();
+
+        void solveT6();
+
+    private:
+        double simulateSingleCar(const std::vector<models::Package>& p, int& timeoutCount, Strategy strategy = Strategy::COMPOSITE);
     };
 
 }
