@@ -19,7 +19,6 @@ void runT6Experiment(const std::string& dataset_path, const std::string& title) 
     core::DataLoader::loadCar(dataset_path, car);
     core::TaskSolver solver(graph, packages, car);
     solver.solveT6();
-
 }
 
 int main() {
@@ -29,7 +28,7 @@ int main() {
     std::vector<models::Package> packages;
     models::Car car;
 
-    std::string data_dir = "test_data/test1";
+    std::string data_dir = "test_data/example";
 
     core::DataLoader::loadGraph(data_dir, graph);
     core::DataLoader::loadPackages(data_dir, packages);
@@ -46,9 +45,6 @@ int main() {
     std::cout << "\n========== Task 3: Transport Cost Optimization ==========" << std::endl;
     solver.solveT3();
 
-    std::cout << "\n[Info] Exporting visualization data to trace.js..." << std::endl;
-    solver.exportVisualization("trace.js");
-
     std::cout << "\n========== Task 4: TSP Return Logistics ==========" << std::endl;
     std::vector<int> returnNodes = {1, 2, 4, 5}; 
     solver.solveT4(returnNodes);
@@ -56,6 +52,7 @@ int main() {
     std::cout << "========== Task 5: Two-Car Coordination ==========" << std::endl;
     solver.solveT5();
 
+    // ================= Task 6 Experiments =================
     runT6Experiment("test_data/t6/dataset1", "Dataset 1 (Anti-NN)");
     runT6Experiment("test_data/t6/dataset2", "Dataset 2 (Anti-Heavy)");
     runT6Experiment("test_data/t6/dataset3", "Dataset 3 (Anti-Composite)");

@@ -39,14 +39,6 @@
             return nodes.size();
         }
 
-        const std::vector<models::Node>& getNodes() const {
-            return nodes;
-        }
-
-        const std::vector<std::vector<models::Edge>>& getAdj() const {
-            return adj;
-        }
-
         std::vector<models::Edge> getNeightors(int u) const {
             return adj[u];
         }

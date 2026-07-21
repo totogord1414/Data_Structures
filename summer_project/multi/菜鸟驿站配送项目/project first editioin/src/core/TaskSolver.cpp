@@ -3,8 +3,6 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include <fstream>
-#include "../../include/data_structures/Queue.h"
 
 const int INF = 1e9;
 
@@ -45,12 +43,6 @@ namespace core {
 
 
     void TaskSolver::solveT1(int startNode, int endNode) {
-        if (startNode < 0 || startNode >= graph.getNodeCount() || endNode < 0 || endNode >= graph.getNodeCount()) {
-            std::cout << "[Warning] Task 1 skipped: Node " << startNode << " or " << endNode 
-                      << " is out of bounds (Graph size: " << graph.getNodeCount() << ")." << std::endl;
-            return;
-        }
-
         Router::PathResult result = router.getShortestPath(startNode, endNode);
         
         std::cout << "Shortest distance from " << startNode << " to " << endNode << ": " 
@@ -139,23 +131,18 @@ namespace core {
             return a.deadline < b.deadline;
         });
 
-        data_structures::CircularQueue<models::Package> queue(pending.size() + 1);
-        for (const auto& pkg : pending) {
-            queue.enqueue(pkg);
-        }
-
         double totalCost = 0.0;
         timeOutCount = 0;
         double currentTime = 0;
 
-        while (!queue.isEmpty()) {
+        while (!pending.empty()) {
             std::vector<models::Package> currCarLoad;
             double currLoadWeight = 0.0;
 
-            while (!queue.isEmpty() && currLoadWeight + queue.front().weight <= car.capacity) {
-                currCarLoad.push_back(queue.front());
-                currLoadWeight += queue.front().weight;
-                queue.dequeue();
+            while (!pending.empty() && currLoadWeight + pending.front().weight < car.capacity) {
+                currCarLoad.push_back(pending.front());
+                currLoadWeight += pending.front().weight;
+                pending.erase(pending.begin());
             }
 
             int currPos = 0;
@@ -403,7 +390,6 @@ namespace core {
         std::cout << "Car 2 took " << packagesCar2.size() << " packages. Cost: " << cost2 << " | Timeouts: " << timeout2 << std::endl;
         std::cout << "T5 Total Cost: " << (cost1 + cost2) << std::endl;
         std::cout << "T5 Total Timeouts: " << (timeout1 + timeout2) << std::endl;
-        std::cout << std::endl;
     }
 
     void TaskSolver::solveT6() {
@@ -416,82 +402,6 @@ namespace core {
         std::cout << "  [Heaviest First]   Cost: " << cost_heavy << ", Timeouts: " << t_heavy << std::endl;
         std::cout << "  [Composite]        Cost: " << cost_comp  << ", Timeouts: " << t_comp << std::endl;
         std::cout << std::endl;
-    }
-
-    void TaskSolver::exportVisualization(const std::string& outputFile) {
-        std::ofstream out(outputFile);
-        if (!out) return;
-
-        out << "const mapData = {" << std::endl;
-        out << "  nodes: [" << std::endl;
-        for (const auto& node : graph.getNodes()) {
-            out << "    { id: " << node.id << ", x: " << node.x << ", y: " << node.y << ", is_station: " << (node.is_station ? "true" : "false") << " }," << std::endl;
-        }
-        out << "  ]," << std::endl;
-        out << "  edges: [" << std::endl;
-        for (int u = 0; u < graph.getNodeCount(); u++) {
-            for (const auto& edge : graph.getAdj()[u]) {
-                if (u < edge.to) { // Avoid duplicate undirected edges
-                    out << "    { u: " << u << ", v: " << edge.to << ", weight: " << edge.weight << " }," << std::endl;
-                }
-            }
-        }
-        out << "  ]" << std::endl;
-        out << "};" << std::endl;
-
-        std::vector<int> fullPath;
-        fullPath.push_back(0);
-        
-        data_structures::CircularQueue<models::Package> queue(packages.size() + 1);
-        for (const auto& pkg : packages) {
-            queue.enqueue(pkg);
-        }
-        
-        std::vector<models::Package> currCarLoad;
-        
-        while (!queue.isEmpty() || !currCarLoad.empty()) {
-            double currLoadWeight = 0.0;
-            while (!queue.isEmpty() && currLoadWeight + queue.front().weight <= car.capacity) {
-                currCarLoad.push_back(queue.front());
-                currLoadWeight += queue.front().weight;
-                queue.dequeue();
-            }
-
-            int currPos = 0;
-            while (!currCarLoad.empty()) {
-                int bestIndex = -1;
-                double bestScore = -1.0;
-                for (size_t i = 0; i < currCarLoad.size(); i++) {
-                    double dist = getDistance(currPos, currCarLoad[i].dest);
-                    double score = currCarLoad[i].weight / (dist + 0.00001);
-                    if (score > bestScore) {
-                        bestScore = score;
-                        bestIndex = i;
-                    }
-                }
-
-                int target = currCarLoad[bestIndex].dest;
-                auto pathRes = router.getShortestPath(currPos, target);
-                for (size_t i = 1; i < pathRes.path.size(); i++) { 
-                    fullPath.push_back(pathRes.path[i]);
-                }
-                currPos = target;
-                currLoadWeight -= currCarLoad[bestIndex].weight;
-                currCarLoad.erase(currCarLoad.begin() + bestIndex);
-            }
-            
-            auto returnRes = router.getShortestPath(currPos, 0);
-            for (size_t i = 1; i < returnRes.path.size(); i++) {
-                fullPath.push_back(returnRes.path[i]);
-            }
-        }
-
-        out << "const pathData = [";
-        for (size_t i = 0; i < fullPath.size(); i++) {
-            out << fullPath[i] << (i == fullPath.size() - 1 ? "" : ", ");
-        }
-        out << "];" << std::endl;
-        out.close();
     }
 
 }

@@ -6,7 +6,6 @@
 #include "../models/Car.h"
 #include "Router.h"
 #include <vector>
-#include <string>
 
 namespace core {
 
@@ -41,8 +40,6 @@ namespace core {
         void solveT5();
 
         void solveT6();
-
-        void exportVisualization(const std::string& outputFile);
 
     private:
         double simulateSingleCar(const std::vector<models::Package>& p, int& timeoutCount, Strategy strategy = Strategy::COMPOSITE);

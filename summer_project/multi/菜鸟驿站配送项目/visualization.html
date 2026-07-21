@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Cainiao Delivery System Visualization</title>
+    <style>
+        body { margin: 0; padding: 0; background-color: #0f172a; color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow: hidden; }
+        #canvas { display: block; width: 100vw; height: 100vh; }
+        #dashboard { position: absolute; top: 20px; left: 20px; background: rgba(30, 41, 59, 0.8); padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); backdrop-filter: blur(10px); border: 1px solid #334155; }
+        h1 { margin: 0 0 10px 0; font-size: 24px; color: #38bdf8; }
+        p { margin: 5px 0; font-size: 14px; color: #cbd5e1; }
+        .stat { font-weight: bold; color: #fbbf24; }
+        #controls { margin-top: 15px; display: flex; gap: 10px; }
+        button { background: #38bdf8; color: #0f172a; border: none; padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+        button:hover { background: #7dd3fc; }
+    </style>
+</head>
+<body>
+    <div id="dashboard">
+        <h1>Delivery Dashboard</h1>
+        <p>Simulation: <span class="stat">Single Car Global Route (T3)</span></p>
+        <p>Current Node: <span class="stat" id="currentNodeDisplay">0</span></p>
+        <p>Nodes Visited: <span class="stat" id="progressDisplay">0 / 0</span></p>
+        <div id="controls">
+            <button id="btnPlay">Play / Pause</button>
+            <button id="btnReset">Reset</button>
+        </div>
+    </div>
+    <canvas id="canvas"></canvas>
+
+    <script src="trace.js"></script>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // Resize canvas
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Map transformation (scale coordinates to fit screen)
+        let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
+        mapData.nodes.forEach(n => {
+            if (n.x < minX) minX = n.x;
+            if (n.y < minY) minY = n.y;
+            if (n.x > maxX) maxX = n.x;
+            if (n.y > maxY) maxY = n.y;
+        });
+
+        // Add padding
+        const padding = 100;
+        
+        function getScreenCoord(x, y) {
+            const scaleX = (canvas.width - padding * 2) / (maxX - minX || 1);
+            const scaleY = (canvas.height - padding * 2) / (maxY - minY || 1);
+            const scale = Math.min(scaleX, scaleY);
+            
+            // Center it
+            const offsetX = (canvas.width - (maxX - minX) * scale) / 2;
+            const offsetY = (canvas.height - (maxY - minY) * scale) / 2;
+            
+            return {
+                x: (x - minX) * scale + offsetX,
+                y: (y - minY) * scale + offsetY
+            };
+        }
+
+        // Animation state
+        let pathIndex = 0;
+        let t = 0; // 0.0 to 1.0 interpolation between current and next node
+        let isPlaying = true;
+        const speed = 0.005; // animation speed
+
+        function drawMap() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw edges
+            ctx.strokeStyle = 'rgba(100, 116, 139, 0.4)';
+            ctx.lineWidth = 2;
+            mapData.edges.forEach(edge => {
+                const u = mapData.nodes.find(n => n.id === edge.u);
+                const v = mapData.nodes.find(n => n.id === edge.v);
+                if(u && v) {
+                    const p1 = getScreenCoord(u.x, u.y);
+                    const p2 = getScreenCoord(v.x, v.y);
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                }
+            });
+
+            // Draw nodes
+            mapData.nodes.forEach(node => {
+                const pos = getScreenCoord(node.x, node.y);
+                ctx.beginPath();
+                ctx.arc(pos.x, pos.y, node.is_station ? 12 : 8, 0, Math.PI * 2);
+                ctx.fillStyle = node.is_station ? '#ef4444' : '#3b82f6';
+                ctx.fill();
+                ctx.strokeStyle = '#0f172a';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw ID
+                ctx.fillStyle = '#f8fafc';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(node.id, pos.x, pos.y - 15);
+            });
+        }
+
+        function drawCar() {
+            if (pathData.length === 0) return;
+
+            let uId = pathData[pathIndex];
+            let vId = pathData[Math.min(pathIndex + 1, pathData.length - 1)];
+            
+            const uNode = mapData.nodes.find(n => n.id === uId);
+            const vNode = mapData.nodes.find(n => n.id === vId);
+
+            if (!uNode || !vNode) return;
+
+            const p1 = getScreenCoord(uNode.x, uNode.y);
+            const p2 = getScreenCoord(vNode.x, vNode.y);
+
+            const cx = p1.x + (p2.x - p1.x) * t;
+            const cy = p1.y + (p2.y - p1.y) * t;
+
+            // Draw glow
+            ctx.beginPath();
+            ctx.arc(cx, cy, 15, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(56, 189, 248, 0.4)';
+            ctx.fill();
+
+            // Draw car dot
+            ctx.beginPath();
+            ctx.arc(cx, cy, 6, 0, Math.PI * 2);
+            ctx.fillStyle = '#38bdf8';
+            ctx.fill();
+            ctx.strokeStyle = '#fff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Update UI
+            document.getElementById('currentNodeDisplay').innerText = uId;
+            document.getElementById('progressDisplay').innerText = `${pathIndex + 1} / ${pathData.length}`;
+        }
+
+        function update() {
+            if (isPlaying && pathIndex < pathData.length - 1) {
+                t += speed;
+                if (t >= 1.0) {
+                    t = 0;
+                    pathIndex++;
+                }
+            }
+        }
+
+        function loop() {
+            update();
+            drawMap();
+            drawCar();
+            requestAnimationFrame(loop);
+        }
+
+        document.getElementById('btnPlay').onclick = () => isPlaying = !isPlaying;
+        document.getElementById('btnReset').onclick = () => {
+            pathIndex = 0;
+            t = 0;
+            isPlaying = true;
+        };
+
+        // Start animation
+        loop();
+    </script>
+</body>
+</html>

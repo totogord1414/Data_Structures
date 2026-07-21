@@ -1,0 +1,36 @@
+const mapData = {
+  nodes: [
+    { id: 0, x: 881, y: 539.3, is_station: true },
+    { id: 1, x: 898.1, y: 38.9, is_station: false },
+    { id: 2, x: 366.8, y: 47.4, is_station: false },
+    { id: 3, x: 641, y: 305.3, is_station: false },
+    { id: 4, x: 683.7, y: 527.3, is_station: false },
+    { id: 5, x: 402.5, y: 514.7, is_station: false },
+    { id: 6, x: 941.8, y: 265.8, is_station: false },
+    { id: 7, x: 329.1, y: 336.8, is_station: false },
+    { id: 8, x: 105.7, y: 565.9, is_station: false },
+    { id: 9, x: 100.3, y: 32.2, is_station: false },
+    { id: 10, x: 108.4, y: 298.4, is_station: false },
+    { id: 11, x: 607.2, y: 45.3, is_station: false },
+  ],
+  edges: [
+    { u: 0, v: 7, weight: 39 },
+    { u: 0, v: 2, weight: 47 },
+    { u: 0, v: 1, weight: 33 },
+    { u: 0, v: 6, weight: 19 },
+    { u: 1, v: 11, weight: 19 },
+    { u: 1, v: 6, weight: 15 },
+    { u: 1, v: 2, weight: 35 },
+    { u: 2, v: 9, weight: 18 },
+    { u: 2, v: 7, weight: 19 },
+    { u: 2, v: 3, weight: 25 },
+    { u: 3, v: 4, weight: 15 },
+    { u: 3, v: 11, weight: 17 },
+    { u: 4, v: 7, weight: 27 },
+    { u: 4, v: 10, weight: 41 },
+    { u: 5, v: 6, weight: 40 },
+    { u: 6, v: 10, weight: 56 },
+    { u: 8, v: 10, weight: 18 },
+  ]
+};
+const pathData = [0, 1, 11, 3, 2, 9, 2, 7, 4, 10, 8, 10, 6, 5, 6, 0, 1, 11, 3, 2, 9, 2, 1, 6, 5, 6, 0, 1, 11, 1, 6, 5, 6, 0];
