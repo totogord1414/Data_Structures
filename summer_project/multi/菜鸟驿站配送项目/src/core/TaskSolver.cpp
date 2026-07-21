@@ -79,17 +79,41 @@ namespace core {
 
         double totalDissatisfaction = 0.0;
         double currentTime = 0.0;
+        
 
-        while (!pending.empty()) {
+        std::vector<double> dists = router.getAllShortestDistances(0);
+        double sumDist = 0.0;
+        for (double d : dists) {
+            sumDist += d;
+        }
+        double avgDist = dists.empty() ? 0 : (sumDist / dists.size());
+        double patienceThreshold = (2.0 * avgDist) / car.speed;
+
+        data_structures::CircularQueue<models::Package> queue(pending.size() + 1);
+        for (const auto& pkg : pending) {
+            queue.enqueue(pkg);
+        }
+
+        while (!queue.isEmpty()) {
             std::vector<models::Package> currCarLoad;
             double currLoadWeight = 0.0;
             double max_time = 0.0;
 
-            while (!pending.empty() && currLoadWeight + pending.front().weight <= car.capacity) {
-                currLoadWeight += pending.front().weight;
-                max_time = pending.front().arrive_time;
-                currCarLoad.push_back(pending.front());
-                pending.erase(pending.begin());
+            while (!queue.isEmpty() && currLoadWeight + queue.front().weight <= car.capacity) {
+                if (!currCarLoad.empty()) {
+                    double currentDeparture = std::max(currentTime, max_time);
+                    double nextDeparture = std::max(currentTime, queue.front().arrive_time);
+                    double delay = nextDeparture - currentDeparture;
+                    double penalty = delay * currCarLoad.size();                     
+                    if (penalty > patienceThreshold) {
+                        break;
+                    }
+                }
+
+                currLoadWeight += queue.front().weight;
+                max_time = queue.front().arrive_time;
+                currCarLoad.push_back(queue.front());
+                queue.dequeue();
 
             }
 
@@ -166,15 +190,23 @@ namespace core {
                 double chosenDist = 0.0;
 
                 for (int i = 0; i < currCarLoad.size(); i++) {
-                    double dist = getDistance(currPos, currCarLoad[i].dest);
+                    int targetDest = currCarLoad[i].dest;
+                    double dist = getDistance(currPos, targetDest);
+
+                    double totalWeightForDest = 0.0;
+                    for (const auto& pkg : currCarLoad) {
+                        if (pkg.dest == targetDest) {
+                            totalWeightForDest += pkg.weight;
+                        }
+                    }
 
                     double score = 0.0;
                     if (strategy == Strategy::NEAREST_NEIGHBOR) {
                         score = 1.0 / (dist + 0.00001); // Distance only (Nearest first)
                     } else if (strategy == Strategy::HEAVIEST_FIRST) {
-                        score = currCarLoad[i].weight; // Weight only (Heaviest first)
+                        score = totalWeightForDest; // Weight only (Heaviest first)
                     } else if (strategy == Strategy::COMPOSITE) {
-                        score = currCarLoad[i].weight / (dist + 0.00001); // Combined strategy
+                        score = totalWeightForDest / (dist + 0.00001); // Combined strategy
                     }
                     
                     if (score > bestScore) {
@@ -462,8 +494,17 @@ namespace core {
                 int bestIndex = -1;
                 double bestScore = -1.0;
                 for (size_t i = 0; i < currCarLoad.size(); i++) {
-                    double dist = getDistance(currPos, currCarLoad[i].dest);
-                    double score = currCarLoad[i].weight / (dist + 0.00001);
+                    int targetDest = currCarLoad[i].dest;
+                    double dist = getDistance(currPos, targetDest);
+                    
+                    double totalWeightForDest = 0.0;
+                    for (const auto& pkg : currCarLoad) {
+                        if (pkg.dest == targetDest) {
+                            totalWeightForDest += pkg.weight;
+                        }
+                    }
+                    
+                    double score = totalWeightForDest / (dist + 0.00001);
                     if (score > bestScore) {
                         bestScore = score;
                         bestIndex = i;

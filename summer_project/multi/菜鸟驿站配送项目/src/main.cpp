@@ -29,7 +29,7 @@ int main() {
     std::vector<models::Package> packages;
     models::Car car;
 
-    std::string data_dir = "test_data/test1";
+    std::string data_dir = "test_data/test2";
 
     core::DataLoader::loadGraph(data_dir, graph);
     core::DataLoader::loadPackages(data_dir, packages);
@@ -56,9 +56,11 @@ int main() {
     std::cout << "========== Task 5: Two-Car Coordination ==========" << std::endl;
     solver.solveT5();
 
-    runT6Experiment("test_data/t6/dataset1", "Dataset 1 (Anti-NN)");
-    runT6Experiment("test_data/t6/dataset2", "Dataset 2 (Anti-Heavy)");
-    runT6Experiment("test_data/t6/dataset3", "Dataset 3 (Anti-Composite)");
+    if (true) {
+        runT6Experiment("test_data/t6/dataset1", "Dataset 1 (Anti-NN)");
+        runT6Experiment("test_data/t6/dataset2", "Dataset 2 (Anti-Heavy)");
+        runT6Experiment("test_data/t6/dataset3", "Dataset 3 (Anti-Composite)");
+    }
 
     return 0;
 }
