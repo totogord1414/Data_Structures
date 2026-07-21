@@ -123,19 +123,29 @@ namespace core {
 
             while (!currCarLoad.empty()) {
                 int bestIndex = -1;
-                double shortestDist = INF;
+                double bestScore = INF;
+                double bestDistForTarget = 0;
+                
                 for (int i = 0; i < currCarLoad.size(); i++) {
                     double dist = getDistance(currPos, currCarLoad[i].dest);
+                    
+                    int count = 0;
+                    for (const auto& pkg : currCarLoad) {
+                        if (pkg.dest == currCarLoad[i].dest) count++;
+                    }
+                    
+                    double score = dist / count;
 
-                    if (dist < shortestDist) {
-                        shortestDist = dist;
+                    if (score < bestScore) {
+                        bestScore = score;
+                        bestDistForTarget = dist;
                         bestIndex = i;
                     }
                 }
 
                 models::Package targetPackage = currCarLoad[bestIndex];
 
-                currentTime += shortestDist / car.speed;
+                currentTime += bestDistForTarget / car.speed;
 
                 totalDissatisfaction += (currentTime - targetPackage.arrive_time);
                 currPos = targetPackage.dest;
